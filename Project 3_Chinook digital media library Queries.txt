@@ -1,0 +1,65 @@
+PROJECT 3: Chinook digital media library queries.
+
+/* Query 1-First Insight*/
+
+       SELECT 
+           ar.name AS artist_name,
+	   COUNT(a.albumId) AS number_of_albums                  
+	   
+	   FROM album a
+	   JOIN artist ar
+	   ON a.artistId=ar.artistId
+	   GROUP BY a.artistId
+	   ORDER BY  number_of_albums DESC 
+	   LIMIT 10 ;
+
+/* Query 2-Second Insight*/
+
+      SELECT 
+       
+        c.FirstName,
+        c.LastName,
+        c.Country,
+        c.Phone,
+        i.InvoiceDate,
+        i.Total
+
+       FROM Invoice AS i
+       JOIN Customer AS c
+       ON i.CustomerId = c.CustomerId
+       GROUP BY i.CustomerId
+       ORDER BY i.Total DESC
+       LIMIT 10;
+
+
+/* Query 3-Third Insight*/
+
+
+      SELECT
+
+           g.Name,
+	   COUNT(t.trackId) as number_of_tracks
+    
+     FROM Track t
+     JOIN Genre g
+     ON t.GenreId = g.GenreId
+     GROUP BY g.name
+     ORDER BY number_of_tracks DESC
+     LIMIT 10 ;
+
+/* Query 4-Fourth Insight*/
+
+SELECT 
+    t.name AS track_name,
+    (SELECT title FROM Album WHERE albumId=t.albumId) AS album_name,
+    (SELECT name FROM Genre WHERE GenreID=t.Genreid) AS genre_name,
+    t.composer,
+    (SELECT TOTAL FROM invoice WHERE invoiceId = il.InvoiceId) AS total_sold
+
+
+FROM InvoiceLine il
+JOIN Track t
+ON il.trackid=t.trackid
+WHERE t.Composer IS NOT NULL
+ORDER BY total_sold DESC
+LIMIT 10;
